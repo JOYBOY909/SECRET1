@@ -14,14 +14,12 @@
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             overflow-x: hidden;
-            overflow-y: auto;
+            overflow-y: scroll;
             position: relative;
-            padding: 20px 0;
+            padding: 40px 20px;
         }
 
         /* Floating hearts background */
@@ -78,12 +76,10 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             max-width: 500px;
             width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
             position: relative;
             z-index: 1;
             animation: fadeIn 0.5s ease;
-            margin: 20px auto;
+            margin: 0 auto;
         }
 
         @keyframes fadeIn {
