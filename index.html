@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Music toggle button */
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        /* Floating hearts background */
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.3;
+            animation: float 10s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .gif-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .gif-container img {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gif-container img:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        h1 {
+            color: #e63946;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .heart-icon {
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.2);
+            }
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            min-height: 80px;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            position: absolute;
+        }
+
+        #noBtn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Click counter */
+        .click-counter {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .success-message {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-message h2 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            color: #666;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .celebration {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        /* Love calculator */
+        .love-meter {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .love-meter h3 {
+            color: #d63031;
+            margin-bottom: 15px;
+        }
+
+        .meter-bar {
+            width: 100%;
+            height: 30px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            border-radius: 15px;
+            transition: width 2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Photo gallery */
+        .photo-gallery {
+            margin: 30px 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.1);
+        }
+
+        /* Share button */
+        .share-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkle 1s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5) rotate(180deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="music-toggle" onclick="toggleMusic()">🎵 Music</button>
+    
+    <div class="heart-bg" id="heartBg"></div>
+    
+    <div class="container">
+        <div id="question">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGxoaHJnNXVrZnJrOGQzYnRnZHQ2ZzN5dGRhOWJ3aWQ2OGN5dGt6ZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o7qDSOvfaCO9b3MlO/giphy.gif" alt="Cute animation" id="mainGif">
+            </div>
+            
+            <h1>Will You Be My Valentine? <span class="heart-icon">💕</span></h1>
+            
+            <div class="button-container">
+                <button id="yesBtn" onclick="yesClicked()">Yes</button>
+                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+            </div>
+            
+            <div class="click-counter" id="clickCounter"></div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <div class="celebration">🎉💕🎊</div>
+            <h2>Yay! 🥳</h2>
+            <p style="font-size: 1.4em; color: #e63946; margin: 20px 0;"><strong>Aini Afkarina Sayang,</strong></p>
+            <p style="margin: 15px 0;">Kamu adalah alasan aku tersenyum setiap hari. ☀️</p>
+            <p style="margin: 15px 0;">Dengan kamu, dunia terasa lebih indah dan berwarna. 🌈</p>
+            <p style="margin: 15px 0;">Kamu bukan hanya Valentine-ku, tapi juga segalanya bagiku. 💖</p>
+            <p style="margin: 15px 0;">Terima kasih sudah membuat hidupku sempurna. ✨</p>
+            <p style="margin-top: 25px; font-size: 1.3em; color: #667eea;"><strong>Aku mencintaimu lebih dari apapun, Aini! 💕</strong></p>
+            
+            <!-- Love Meter -->
+            <div class="love-meter">
+                <h3>💖 Love Meter 💖</h3>
+                <div class="meter-bar">
+                    <div class="meter-fill" id="meterFill" style="width: 0%;">0%</div>
+                </div>
+            </div>
+
+            <!-- Photo Gallery -->
+            <div class="photo-gallery">
+                <div class="gallery-item">💕</div>
+                <div class="gallery-item">💖</div>
+                <div class="gallery-item">💗</div>
+                <div class="gallery-item">💓</div>
+                <div class="gallery-item">💝</div>
+                <div class="gallery-item">💘</div>
+            </div>
+
+            <button class="share-btn" onclick="shareWebsite()">📤 Share This Moment</button>
+        </div>
+    </div>
+
+    <!-- Audio element for background music -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        let yesBtn = document.getElementById('yesBtn');
+        let noBtn = document.getElementById('noBtn');
+        let clickCount = 0;
+        let musicPlaying = false;
+        let bgMusic = document.getElementById('bgMusic');
+        
+        // GIF URLs for different stages
+        const gifs = [
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGxoaHJnNXVrZnJrOGQzYnRnZHQ2ZzN5dGRhOWJ3aWQ2OGN5dGt6ZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o7qDSOvfaCO9b3MlO/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3R1aGx2cjY5dGlnOXQ2djJqb3E3Ym9rZDBvNXljZ2Y1cjNudjlpZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2aPSaLW2aQzNSkaKP/giphy.gif',
+            'https://media.giphy.com/media/kGdXlPNvhbVPXzJKwL/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExanNxdGJld3h0eGFnbTViMjlrdTdvYTJyNWlzYnJldnpzdnp2YWRkdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/14gHkuRKsN5HMY/giphy.gif'
+        ];
+
+        // Messages for click counter
+        const messages = [
+            "Come on... just say yes! 🥺",
+            "Please? Pretty please? 🙏",
+            "You're breaking my heart! 💔",
+            "I know you want to say yes! 😊",
+            "Just click the YES button! 💕",
+            "Why are you doing this to me? 😢",
+            "The YES button is getting bigger for a reason! 😉",
+            "Okay, I see how it is... 😅"
+        ];
+
+        // Toggle music
+        function toggleMusic() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                musicPlaying = false;
+                document.querySelector('.music-toggle').innerHTML = '🎵 Music';
+            } else {
+                bgMusic.play();
+                musicPlaying = true;
+                document.querySelector('.music-toggle').innerHTML = '🔇 Mute';
+            }
+        }
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.getElementById('heartBg').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f7b731', '#5f27cd', '#00d2d3'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Create sparkles on mouse movement
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.95) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                sparkle.style.position = 'absolute';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        });
+
+        // Create hearts periodically
+        setInterval(createHeart, 500);
+
+        function moveButton() {
+            clickCount++;
+            
+            // Update counter message
+            if (clickCount <= messages.length) {
+                document.getElementById('clickCounter').innerHTML = messages[clickCount - 1];
+            }
+
+            // Change GIF based on click count
+            if (clickCount <= 3 && gifs[clickCount]) {
+                document.getElementById('mainGif').src = gifs[clickCount];
+            }
+
+            // Increase Yes button size
+            let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 5) + 'px';
+            yesBtn.style.padding = (15 + clickCount * 3) + 'px ' + (40 + clickCount * 5) + 'px';
+
+            // Move No button to random position
+            const container = document.querySelector('.button-container');
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            const maxX = containerRect.width - btnRect.width;
+            const maxY = containerRect.height - btnRect.height;
+
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            // After several clicks, make the No button smaller
+            if (clickCount > 3) {
+                let currentNoSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+                if (currentNoSize > 10) {
+                    noBtn.style.fontSize = (currentNoSize - 2) + 'px';
+                    noBtn.style.padding = '10px 20px';
+                }
+            }
+
+            // Extra effects
+            createConfetti();
+        }
+
+        function yesClicked() {
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Create celebration effect
+            createConfetti();
+            for (let i = 0; i < 50; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+
+            // Animate love meter
+            setTimeout(() => {
+                let width = 0;
+                const interval = setInterval(() => {
+                    if (width >= 100) {
+                        clearInterval(interval);
+                    } else {
+                        width += 2;
+                        document.getElementById('meterFill').style.width = width + '%';
+                        document.getElementById('meterFill').innerHTML = width + '%';
+                    }
+                }, 30);
+            }, 500);
+
+            // Play music if not playing
+            if (!musicPlaying) {
+                toggleMusic();
+            }
+        }
+
+        function shareWebsite() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Will You Be My Valentine?',
+                    text: 'Check out this special Valentine message! 💕',
+                    url: window.location.href
+                }).catch(() => {
+                    copyToClipboard();
+                });
+            } else {
+                copyToClipboard();
+            }
+        }
+
+        function copyToClipboard() {
+            const dummy = document.createElement('input');
+            document.body.appendChild(dummy);
+            dummy.value = window.location.href;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            alert('Link copied to clipboard! 📋');
+        }
+
+        // Create initial hearts
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createHeart, i * 200);
+        }
+
+        // Add click effect to gallery items
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(1.2) rotate(360deg)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 300);
+                createConfetti();
+            });
+        });
+    </script>
+</body>
+</html>
