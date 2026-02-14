@@ -18,8 +18,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
+            padding: 20px 0;
         }
 
         /* Floating hearts background */
@@ -76,9 +78,12 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             max-width: 500px;
             width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
             z-index: 1;
             animation: fadeIn 0.5s ease;
+            margin: 20px auto;
         }
 
         @keyframes fadeIn {
